@@ -84,6 +84,26 @@ form {
   }
 }
 
+.login{
+  max-width: 800px;
+  width: 100%;
+  margin: 10% auto;
+  padding-top: 50px;
+  box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12),
+  0 2px 4px rgba(0, 0, 0, 0.24);  
+  background-color: #FFF;
+
+  input{
+    width: 200px;
+    margin: 5px 2px;
+  }
+  
+  button{
+    width: 70px;
+    align-self: center;
+  }
+}
+
 .button-row {
   display: flex;
   justify-content: space-between;
