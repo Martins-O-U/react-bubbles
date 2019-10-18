@@ -6,8 +6,10 @@ const initialColor = {
   code: { hex: "" }
 };
 
+const quotesURL = 'http://localhost:5000/api/colors';
 
-const ColorList = ({ colors, updateColors, getColors }, props) => {
+
+const ColorList = ({ colors, updateColors, getColors }) => {
 
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -31,22 +33,21 @@ const ColorList = ({ colors, updateColors, getColors }, props) => {
     e.preventDefault();
     // Make a put request to save your updated color
     // think about where will you get the id from...
-    // where is is saved right now?
-    console.log(colorToEdit)
     axiosWithAuth()
-    .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+    .put(`${quotesURL}/${colorToEdit.id}`, colorToEdit)
     .then(res => {
       getColors();
-      console.log(res)
+      setEditing(false)
     })
   };
 
   const deleteColor = color => {
     // make a delete request to delete this color
     axiosWithAuth()
-    .delete(`http://localhost:5000/api/colors/${color.id}`)
+    .delete(`${quotesURL}/${color.id}`)
     .then(res => {
       getColors();
+      setEditing(false)
     })
   };
 
