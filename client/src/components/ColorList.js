@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axiosWithAuth  from './AxiosWithAuth'
 
 const initialColor = {
@@ -9,7 +9,7 @@ const initialColor = {
 const quotesURL = 'http://localhost:5000/api/colors';
 
 
-const ColorList = ({ colors, updateColors, getColors }) => {
+const ColorList = ({ colors, updateColors, getColors }, props) => {
 
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -50,6 +50,28 @@ const ColorList = ({ colors, updateColors, getColors }) => {
       setEditing(false)
     })
   };
+
+    const colorNameRef = useRef();
+    const colorHexRef = useRef();
+  
+  
+    const submit = () => {
+      axiosWithAuth().post('http://localhost:5000/api/colors/', {
+          color: colorNameRef.current.value,
+          code: {
+              hex: colorHexRef.current.value,
+          }
+      })
+        .then(res => {
+          props.history.push('/api/colors');
+          getColors();
+          console.log(colors)
+        })
+        .catch(error => {
+          alert(error);
+        });
+    };
+  
 
   return (
     <div className="colors-wrap">
@@ -101,7 +123,18 @@ const ColorList = ({ colors, updateColors, getColors }) => {
         </form>
       )}
       <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
+        <div className='login'>
+          <div>
+            color name: <input ref={colorNameRef} type="text" />
+            <br />
+            color hex: <input ref={colorHexRef} type="text" />
+          </div>
+
+        <div>
+          <button onClick={()=> submit ()}>Add Color</button>
+        </div>
+        {/* stretch - build another form here to add a color */}
+      </div>
     </div>
   );
 };
