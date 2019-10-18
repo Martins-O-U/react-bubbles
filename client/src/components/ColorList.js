@@ -9,7 +9,7 @@ const initialColor = {
 const quotesURL = 'http://localhost:5000/api/colors';
 
 
-const ColorList = ({ colors, updateColors, getColors }, props) => {
+const ColorList = ({ colors, updateColors, getColors }) => {
 
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -54,7 +54,6 @@ const ColorList = ({ colors, updateColors, getColors }, props) => {
     const colorNameRef = useRef();
     const colorHexRef = useRef();
   
-  
     const submit = () => {
       axiosWithAuth().post('http://localhost:5000/api/colors/', {
           color: colorNameRef.current.value,
@@ -63,16 +62,13 @@ const ColorList = ({ colors, updateColors, getColors }, props) => {
           }
       })
         .then(res => {
-          props.history.push('/api/colors');
-          getColors();
-          console.log(colors)
+          updateColors(res.data)
         })
         .catch(error => {
           alert(error);
         });
     };
   
-
   return (
     <div className="colors-wrap">
       <p>colors</p>
@@ -133,7 +129,6 @@ const ColorList = ({ colors, updateColors, getColors }, props) => {
         <div>
           <button onClick={()=> submit ()}>Add Color</button>
         </div>
-        {/* stretch - build another form here to add a color */}
       </div>
     </div>
   );
